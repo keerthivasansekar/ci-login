@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="<?= base_url() ?>/assets/plugins/fontawesome-free/css/all.min.css">
     <!-- icheck bootstrap -->
     <link rel="stylesheet" href="<?= base_url() ?>/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Sweetalert 2 -->
+    <link rel="stylesheet" href="<?= base_url() ?>/assets/plugins/sweetalert2/sweetalert2.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="<?= base_url() ?>/assets/css/adminlte.min.css">
   </head>
@@ -22,8 +24,12 @@
     <script src="<?= base_url() ?>/assets/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="<?= base_url() ?>/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Sweetalert 2 -->
+    <script src="<?= base_url() ?>/assets/plugins/sweetalert2/sweetalert2.all.min.js"></script>
     <!-- AdminLTE App -->
     <script src="<?= base_url() ?>/assets/js/adminlte.min.js"></script>
+    <!-- Custom Script -->
+    <script src="<?= base_url() ?>/assets/js/script.js"></script>
   </body>
 
 </html>

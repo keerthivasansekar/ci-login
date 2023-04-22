@@ -33,11 +33,11 @@ $routes->get('/', 'Home::index');
 
 // Auth Routes
 $routes->group("auth", function ($routes) {
-    $routes->get("login", "Auth\LoginController::index");
-    $routes->get("register", "Auth\RegisterController::index");
-    $routes->get("forgot-password", "Auth\RegisterController::forgot_password");
-    $routes->get("verify-otp", "Auth\RegisterController::verify_otp");
-    $routes->get("reset-password", "Auth\RegisterController::reset_password");
+    $routes->add("login", "Auth\LoginController::index");
+    $routes->add("register", "Auth\RegisterController::index");
+    $routes->add("forgot-password", "Auth\RegisterController::forgot_password");
+    $routes->add("verify-otp", "Auth\RegisterController::verify_otp");
+    $routes->add("reset-password", "Auth\RegisterController::reset_password");
 });
 
 /*
