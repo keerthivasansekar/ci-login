@@ -9,8 +9,7 @@ use App\Models\UsersModel as Users;
 class RegisterController extends BaseController
 {
     use ResponseTrait;
-    public function index()
-    {
+    public function index(){
         if ($this->request->is('post')) {
             $rules = [
                 'name' => ['rules' => 'required|min_length[4]|max_length[255]'],
@@ -52,8 +51,7 @@ class RegisterController extends BaseController
         }
     }
 
-    public function forgot_password()
-    {
+    public function forgot_password(){
         if ($this->request->is('post')) {
             $userModel = new Users();
 
@@ -130,8 +128,7 @@ class RegisterController extends BaseController
         }
     }
 
-    public function reset_password()
-    {
+    public function reset_password(){
         if ($this->request->is('post')) {
             $rules = [
                 'password' => ['rules' => 'required|min_length[8]|max_length[255]'],
@@ -157,6 +154,7 @@ class RegisterController extends BaseController
                         'status' => "success",
                         'message' => "Password reset successfully",
                     ];
+                    $session->destroy();
                     return $this->respond($response, 200);
                 } else {
                     $response = [
