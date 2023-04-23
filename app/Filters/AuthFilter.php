@@ -13,17 +13,10 @@ class AuthFilter implements FilterInterface
     
     public function before(RequestInterface $request, $arguments = null)
     {
+        $session = session();
         $key = getenv('JWT_SECRET');
-        $header = $request->getServer('HTTP_AUTHORIZATION');
-        $token = null;
-  
-        // extract the token from the header
-        if(!empty($header)) {
-            if (preg_match('/Bearer\s(\S+)/', $header, $matches)) {
-                $token = $matches[1];
-            }
-        }
-  
+        $token = $session->get('auth_token');
+    
         // check if token is null or empty
         if(is_null($token) || empty($token)) {
             return redirect()->to('auth/login');

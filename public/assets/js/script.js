@@ -162,4 +162,65 @@ $(document).ready(function(){
             }
         });
     });
+
+    $('#btnLogin').click(function(e){
+        e.preventDefault();
+        $.ajax({
+            url: $(location).attr('origin') + '/auth/login',
+            type: 'post',
+            dataType: 'json',
+            data: $('#formLogin').serialize(),
+            success: function(data){
+                if (data.status == 'success') {
+                    $('#formLogin').each(function(){
+                        this.reset();
+                    });
+                    Swal.fire(
+                        'Success',
+                        data.message,
+                        'success'
+                    ).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location= $(location).attr('origin');
+                        }
+                    });
+                } else {
+                    Swal.fire(
+                        'Failed',
+                        'Somthing Went wrong',
+                        'error'
+                    );
+                    if (data.errors.errEmail) {
+                        $('#email').addClass('is-invalid');
+                        $('#InputEmail-error').addClass('error invalid-feedback').text(data.errors.errEmail);
+                    }
+                    if (data.errors.errPassword) {
+                        $('#password').addClass('is-invalid');
+                        $('#InputPassword-error').addClass('error invalid-feedback').text(data.errors.errPassword);
+                    }
+                }
+            }
+        });
+    });
+
+    $('#logout').click(function(e){
+        e.preventDefault();
+        $.ajax({
+            url: $(location).attr('origin') + '/auth/logout',
+            dataType: 'json',
+            success: function(data){
+                if (data.status == 'success') {
+                    Swal.fire(
+                        'Success',
+                        data.message,
+                        'success'
+                    ).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location= $(location).attr('origin')+'/auth/login';
+                        }
+                    });
+                }
+            }
+        });
+    });
 });

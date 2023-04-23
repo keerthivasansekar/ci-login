@@ -33,11 +33,12 @@ $routes->get('/', 'Home::index', ['filter' => 'authFilter']);
 
 // Auth Routes
 $routes->group("auth", function ($routes) {
-    $routes->add("login", "Auth\LoginController::index");
-    $routes->add("register", "Auth\RegisterController::index");
-    $routes->add("forgot-password", "Auth\RegisterController::forgot_password");
-    $routes->add("verify-otp", "Auth\RegisterController::verify_otp");
-    $routes->add("reset-password", "Auth\RegisterController::reset_password");
+    $routes->add("login", "Auth\LoginController::index", ['filter' => 'loggedInFilter']);
+    $routes->add("logout", "Auth\LoginController::logout", ['filter' => 'authFilter']);
+    $routes->add("register", "Auth\RegisterController::index", ['filter' => 'loggedInFilter']);
+    $routes->add("forgot-password", "Auth\RegisterController::forgot_password", ['filter' => 'loggedInFilter']);
+    $routes->add("verify-otp", "Auth\RegisterController::verify_otp", ['filter' => 'loggedInFilter']);
+    $routes->add("reset-password", "Auth\RegisterController::reset_password", ['filter' => 'loggedInFilter']);
 });
 
 /*
