@@ -51,7 +51,7 @@ $(document).ready(function(){
         });
     });
 
-    $('#reqNewPass').click(function(e){
+    $('#btnReqNewPass').click(function(e){
         e.preventDefault();
         $.ajax({
             url: $(location).attr('origin') + '/auth/forgot-password',
@@ -81,6 +81,82 @@ $(document).ready(function(){
                     if (data.error) {
                         $('#email').addClass('is-invalid');
                         $('#InputEmail-error').addClass('error invalid-feedback').text(data.error);
+                    }
+                }
+            }
+        });
+    });
+
+    $('#btnVerifyOtp').click(function(e){
+        e.preventDefault();
+        $.ajax({
+            url: $(location).attr('origin') + '/auth/verify-otp',
+            type: 'post',
+            dataType: 'json',
+            data: $('#formVerifyOtp').serialize(),
+            success: function(data){
+                if (data.status == 'success') {
+                    $('#formVerifyOtp').each(function(){
+                        this.reset();
+                    });
+                    Swal.fire(
+                        'Success',
+                        data.message,
+                        'success'
+                    ).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location= $(location).attr('origin') + '/auth/reset-password';
+                        }
+                    });
+                } else {
+                    Swal.fire(
+                        'Failed',
+                        'Somthing Went wrong',
+                        'error'
+                    );
+                    if (data.error) {
+                        $('#otp').addClass('is-invalid');
+                        $('#InputOtp-error').addClass('error invalid-feedback').text(data.error);
+                    }
+                }
+            }
+        });
+    });
+
+    $('#btnResetPassword').click(function(e){
+        e.preventDefault();
+        $.ajax({
+            url: $(location).attr('origin') + '/auth/reset-password',
+            type: 'post',
+            dataType: 'json',
+            data: $('#formResetPassword').serialize(),
+            success: function(data){
+                if (data.status == 'success') {
+                    $('#formResetPassword').each(function(){
+                        this.reset();
+                    });
+                    Swal.fire(
+                        'Success',
+                        data.message,
+                        'success'
+                    ).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location= $(location).attr('origin') + '/auth/login';
+                        }
+                    });
+                } else {
+                    Swal.fire(
+                        'Failed',
+                        'Somthing Went wrong',
+                        'error'
+                    );
+                    if (data.errors.errPassword) {
+                        $('#password').addClass('is-invalid');
+                        $('#InputPassword-error').addClass('error invalid-feedback').text(data.errors.errPassword);
+                    }
+                    if (data.errors.errConfirmPass) {
+                        $('#confirmpass').addClass('is-invalid');
+                        $('#InputConfirmPass-error').addClass('error invalid-feedback').text(data.errors.errConfirmPass);
                     }
                 }
             }

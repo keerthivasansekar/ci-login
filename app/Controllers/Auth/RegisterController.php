@@ -92,16 +92,95 @@ class RegisterController extends BaseController
         }
     }
 
-    public function verify_otp()
-    {
-        $data['_viewfile'] = 'auth/verify_otp';
-        return view('layouts/auth', $data);
+    public function verify_otp(){
+        if ($this->request->is('post')) {
+            $session = session();
+            $email = $session->get('reset_email');
+            $otp = $this->request->getVar('otp');
+
+            $userModel = new Users();
+            $user = $userModel->where('user_email', $email)->first();
+
+            if (is_null($user)) {
+                $response = [
+                    'status' => "failed",
+                    'error' => "Something went wrong please try again",
+                ];
+                return $this->respond($response, 200);
+            }
+
+            if (sha1($otp) === $user['user_fp_token']) {
+                $response = [
+                    'status' => "success",
+                    'message' => "OTP verified successfully",
+                    
+                ];
+                $session->set(['auth_token' => $user['user_fp_token']]);
+                return $this->respond($response, 200);
+            } else {
+                $response = [
+                    'status' => "failed",
+                    'error' => "OTP verification failed",
+                ];
+                return $this->respond($response, 200);
+            }
+        } else {
+            $data['_viewfile'] = 'auth/verify_otp';
+            return view('layouts/auth', $data);
+        }
     }
 
     public function reset_password()
     {
-        $data['_viewfile'] = 'auth/reset_password';
-        return view('layouts/auth', $data);
+        if ($this->request->is('post')) {
+            $rules = [
+                'password' => ['rules' => 'required|min_length[8]|max_length[255]'],
+                'confirmpass'  => [ 'label' => 'confirm password', 'rules' => 'required|matches[password]']
+            ];
+    
+            if ($this->validate($rules)) {
+                $userModel = new Users();
+                $session = session();
+                $authtoken = $session->get('auth_token');
+                $hashed_password = password_hash($this->request->getVar('password'), PASSWORD_DEFAULT);
+                $user = $userModel->where('user_fp_token', $authtoken)->first();
+                if (!is_null($user)) {
+                    $data = [
+                        'user_fp_token' => null,
+                        'user_password' => $hashed_password
+                    ];
+    
+                    $userModel->set($data);
+                    $userModel->where('user_id', $user['user_id']);
+                    $userModel->update();
+                    $response = [
+                        'status' => "success",
+                        'message' => "Password reset successfully",
+                    ];
+                    return $this->respond($response, 200);
+                } else {
+                    $response = [
+                        'status' => "failed",
+                        'error' => "Something went wrong please try again",
+                    ];
+                    return $this->respond($response, 200);
+                }
+                
+            } else {
+                $response = [
+                    'status' => "200",
+                    'errors' => [
+                        "errPassword" => $this->validator->getError('password'),
+                        "errConfirmPassword" => $this->validator->getError('confirm_password'),
+                    ],
+                ];
+                return $this->respond($response, 200);
+            }
+        } else {
+            $data['_viewfile'] = 'auth/reset_password';
+            return view('layouts/auth', $data);
+        }
+
     }
 
     private function otp_email($toEmail, $otp){
@@ -111,7 +190,7 @@ class RegisterController extends BaseController
         $email->setTo($toEmail);
 
         $email->setSubject('Email OTP to reset password');
-        $message = "Your OTP to reset password is: ". $otp;
+        $message = "Your OTP to reset password is: " . $otp;
         $email->setMessage($message);
 
         try {
@@ -119,6 +198,5 @@ class RegisterController extends BaseController
         } catch (\Throwable $th) {
             return $th->getMessage();
         }
-        
     }
 }

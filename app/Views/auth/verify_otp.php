@@ -5,18 +5,19 @@
         </div>
         <div class="card-body">
             <p class="login-box-msg">Enter the code you received in email to reset your password.</p>
-            <form action="recover-password.html" method="post">
+            <form action="#" id="formVerifyOtp" method="post">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Verification Code">
+                    <input type="text" name="otp" id="otp" class="form-control" placeholder="Verification Code">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-envelope"></span>
                         </div>
                     </div>
+                    <span id="InputOtp-error" class=""></span>
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <button type="submit" class="btn btn-primary btn-block">Reset new password</button>
+                        <button type="submit" id="btnVerifyOtp" class="btn btn-primary btn-block">Reset new password</button>
                     </div>
                     <!-- /.col -->
                 </div>

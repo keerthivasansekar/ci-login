@@ -17,7 +17,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <button type="submit" id="reqNewPass" class="btn btn-primary btn-block">Request new password</button>
+                        <button type="submit" id="btnReqNewPass" class="btn btn-primary btn-block">Request new password</button>
                     </div>
                     <!-- /.col -->
                 </div>
