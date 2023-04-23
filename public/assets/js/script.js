@@ -50,4 +50,40 @@ $(document).ready(function(){
             }
         });
     });
+
+    $('#reqNewPass').click(function(e){
+        e.preventDefault();
+        $.ajax({
+            url: $(location).attr('origin') + '/auth/forgot-password',
+            type: 'post',
+            dataType: 'json',
+            data: $('#formForgotPassword').serialize(),
+            success: function(data){
+                if (data.status == 'success') {
+                    $('#formForgotPassword').each(function(){
+                        this.reset();
+                    });
+                    Swal.fire(
+                        'Success',
+                        data.message,
+                        'success'
+                    ).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location= $(location).attr('origin') + '/auth/verify-otp';
+                        }
+                    });
+                } else {
+                    Swal.fire(
+                        'Failed',
+                        'Somthing Went wrong',
+                        'error'
+                    );
+                    if (data.error) {
+                        $('#email').addClass('is-invalid');
+                        $('#InputEmail-error').addClass('error invalid-feedback').text(data.error);
+                    }
+                }
+            }
+        });
+    });
 });
