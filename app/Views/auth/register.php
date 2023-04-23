@@ -47,8 +47,8 @@
                     <div class="col-8">
                         <div class="form-group mb-0">
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" name="terms" class="custom-control-input" id="terms" value="agree">
-                                <label class="custom-control-label" for="exampleCheck1">I agree to the <a href="#">terms of service</a>.</label>
+                                <input type="checkbox" name="terms" class="custom-control-input" id="terms">
+                                <label class="custom-control-label" for="terms">I agree to the <a href="#">terms of service</a>.</label>
                             </div>
                             <span id="InputTerms-error" class="" style="display: inline;"></span>
                         </div>

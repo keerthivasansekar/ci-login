@@ -8,13 +8,17 @@ $(document).ready(function(){
             data: $('#formRegister').serialize(),
             success: function(data){
                 if (data.status == 'success') {
+                    $('#formRegister').each(function(){
+                        this.reset();
+                    });
                     Swal.fire(
                         'Success',
                         data.message,
                         'success'
-                    );
-                    $('#formRegister').each(function(){
-                        this.reset();
+                    ).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location= $(location).attr('origin') + '/auth/login';
+                        }
                     });
                 } else {
                     Swal.fire(

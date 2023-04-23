@@ -17,7 +17,7 @@ class RegisterController extends BaseController
                 'email' => ['rules' => 'required|min_length[4]|max_length[255]|valid_email|is_unique[users.user_email]'],
                 'password' => ['rules' => 'required|min_length[8]|max_length[255]'],
                 'confirmpass'  => [ 'label' => 'confirm password', 'rules' => 'required|matches[password]'],
-                'terms' => ['rules' => 'required|in_list[agree]']
+                'terms' => ['rules' => 'required']
             ];
 
             if($this->validate($rules)){
